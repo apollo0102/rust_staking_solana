@@ -1,0 +1,1219 @@
+{
+    "version": "0.1.0",
+    "name": "staking_contract",
+    "instructions": [
+        {
+            "name": "initializeMainPool",
+            "accounts": [
+                {
+                    "name": "authority",
+                    "isMut": false,
+                    "isSigner": true
+                },
+                {
+                    "name": "stakingMint",
+                    "isMut": false,
+                    "isSigner": false
+                },
+                {
+                    "name": "stakingVault",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "rewardMint",
+                    "isMut": false,
+                    "isSigner": false
+                },
+                {
+                    "name": "rewardVault",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "poolTokenAta",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "poolSigner",
+                    "isMut": false,
+                    "isSigner": false
+                },
+                {
+                    "name": "pool",
+                    "isMut": true,
+                    "isSigner": true
+                },
+                {
+                    "name": "tokenProgram",
+                    "isMut": false,
+                    "isSigner": false
+                },
+                {
+                    "name": "rent",
+                    "isMut": false,
+                    "isSigner": false
+                },
+                {
+                    "name": "systemProgram",
+                    "isMut": false,
+                    "isSigner": false
+                }
+            ],
+            "args": [
+                {
+                    "name": "poolNonce",
+                    "type": "u8"
+                },
+                {
+                    "name": "rewardDuration",
+                    "type": "u64"
+                }
+            ]
+        },
+        {
+            "name": "createUser",
+            "accounts": [
+                {
+                    "name": "pool",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "user",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "owner",
+                    "isMut": false,
+                    "isSigner": false
+                },
+                {
+                    "name": "payer",
+                    "isMut": false,
+                    "isSigner": true
+                },
+                {
+                    "name": "systemProgram",
+                    "isMut": false,
+                    "isSigner": false
+                }
+            ],
+            "args": [
+                {
+                    "name": "nonce",
+                    "type": "u8"
+                },
+                {
+                    "name": "currentTs",
+                    "type": "i64"
+                }
+            ]
+        },
+        {
+            "name": "pause",
+            "accounts": [
+                {
+                    "name": "pool",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "authority",
+                    "isMut": false,
+                    "isSigner": true
+                },
+                {
+                    "name": "poolSigner",
+                    "isMut": false,
+                    "isSigner": false
+                },
+                {
+                    "name": "tokenProgram",
+                    "isMut": false,
+                    "isSigner": false
+                }
+            ],
+            "args": []
+        },
+        {
+            "name": "unpause",
+            "accounts": [
+                {
+                    "name": "pool",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "authority",
+                    "isMut": false,
+                    "isSigner": true
+                },
+                {
+                    "name": "poolSigner",
+                    "isMut": false,
+                    "isSigner": false
+                },
+                {
+                    "name": "tokenProgram",
+                    "isMut": false,
+                    "isSigner": false
+                }
+            ],
+            "args": []
+        },
+        {
+            "name": "stake",
+            "accounts": [
+                {
+                    "name": "pool",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "stakingVault",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "user",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "owner",
+                    "isMut": false,
+                    "isSigner": true
+                },
+                {
+                    "name": "stakeFromAccount",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "poolSigner",
+                    "isMut": false,
+                    "isSigner": false
+                },
+                {
+                    "name": "tokenProgram",
+                    "isMut": false,
+                    "isSigner": false
+                }
+            ],
+            "args": [
+                {
+                    "name": "amount",
+                    "type": "u64"
+                },
+                {
+                    "name": "currentTs",
+                    "type": "i64"
+                },
+                {
+                    "name": "lockingPeriod",
+                    "type": "i64"
+                }
+            ]
+        },
+        {
+            "name": "unstake",
+            "accounts": [
+                {
+                    "name": "pool",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "stakingVault",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "user",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "owner",
+                    "isMut": false,
+                    "isSigner": true
+                },
+                {
+                    "name": "stakeFromAccount",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "poolSigner",
+                    "isMut": false,
+                    "isSigner": false
+                },
+                {
+                    "name": "tokenProgram",
+                    "isMut": false,
+                    "isSigner": false
+                }
+            ],
+            "args": [
+                {
+                    "name": "sptAmount",
+                    "type": "u64"
+                },
+                {
+                    "name": "currentTs",
+                    "type": "i64"
+                }
+            ]
+        },
+        {
+            "name": "fund",
+            "accounts": [
+                {
+                    "name": "pool",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "stakingVault",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "rewardVault",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "funder",
+                    "isMut": false,
+                    "isSigner": true
+                },
+                {
+                    "name": "from",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "poolSigner",
+                    "isMut": false,
+                    "isSigner": false
+                },
+                {
+                    "name": "tokenProgram",
+                    "isMut": false,
+                    "isSigner": false
+                }
+            ],
+            "args": [
+                {
+                    "name": "amount",
+                    "type": "u64"
+                }
+            ]
+        },
+        {
+            "name": "claim",
+            "accounts": [
+                {
+                    "name": "pool",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "stakingVault",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "rewardVault",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "user",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "owner",
+                    "isMut": false,
+                    "isSigner": true
+                },
+                {
+                    "name": "rewardAccount",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "poolSigner",
+                    "isMut": false,
+                    "isSigner": false
+                },
+                {
+                    "name": "tokenProgram",
+                    "isMut": false,
+                    "isSigner": false
+                }
+            ],
+            "args": [
+                {
+                    "name": "currentTs",
+                    "type": "i64"
+                }
+            ]
+        },
+        {
+            "name": "closeUser",
+            "accounts": [
+                {
+                    "name": "pool",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "user",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "owner",
+                    "isMut": false,
+                    "isSigner": true
+                }
+            ],
+            "args": []
+        },
+        {
+            "name": "closePool",
+            "accounts": [
+                {
+                    "name": "refundee",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "stakingRefundee",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "pool",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "authority",
+                    "isMut": false,
+                    "isSigner": true
+                },
+                {
+                    "name": "stakingVault",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "rewardVault",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "poolSigner",
+                    "isMut": false,
+                    "isSigner": false
+                },
+                {
+                    "name": "tokenProgram",
+                    "isMut": false,
+                    "isSigner": false
+                }
+            ],
+            "args": []
+        },
+        {
+            "name": "initializeMerchantPool",
+            "accounts": [
+                {
+                    "name": "pool",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "merchant",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "owner",
+                    "isMut": false,
+                    "isSigner": true
+                },
+                {
+                    "name": "systemProgram",
+                    "isMut": false,
+                    "isSigner": false
+                }
+            ],
+            "args": [
+                {
+                    "name": "merchantName",
+                    "type": "string"
+                },
+                {
+                    "name": "merchantNonce",
+                    "type": "u8"
+                },
+                {
+                    "name": "currentTs",
+                    "type": "i64"
+                }
+            ]
+        },
+        {
+            "name": "createMerchantUser",
+            "accounts": [
+                {
+                    "name": "pool",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "merchant",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "merchantUser",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "owner",
+                    "isMut": false,
+                    "isSigner": true
+                },
+                {
+                    "name": "systemProgram",
+                    "isMut": false,
+                    "isSigner": false
+                }
+            ],
+            "args": [
+                {
+                    "name": "nonce",
+                    "type": "u8"
+                },
+                {
+                    "name": "currentTs",
+                    "type": "i64"
+                }
+            ]
+        },
+        {
+            "name": "stakeTokenToMerchant",
+            "accounts": [
+                {
+                    "name": "pool",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "stakingVault",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "merchant",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "merchantUser",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "owner",
+                    "isMut": false,
+                    "isSigner": true
+                },
+                {
+                    "name": "stakeFromAccount",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "poolSigner",
+                    "isMut": false,
+                    "isSigner": false
+                },
+                {
+                    "name": "tokenProgram",
+                    "isMut": false,
+                    "isSigner": false
+                }
+            ],
+            "args": [
+                {
+                    "name": "amount",
+                    "type": "u64"
+                },
+                {
+                    "name": "currentTs",
+                    "type": "i64"
+                },
+                {
+                    "name": "lockingPeriod",
+                    "type": "i64"
+                }
+            ]
+        },
+        {
+            "name": "unstakeTokenToMerchant",
+            "accounts": [
+                {
+                    "name": "pool",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "stakingVault",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "merchant",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "merchantUser",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "owner",
+                    "isMut": false,
+                    "isSigner": true
+                },
+                {
+                    "name": "stakeFromAccount",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "poolSigner",
+                    "isMut": false,
+                    "isSigner": false
+                },
+                {
+                    "name": "tokenProgram",
+                    "isMut": false,
+                    "isSigner": false
+                }
+            ],
+            "args": [
+                {
+                    "name": "amount",
+                    "type": "u64"
+                },
+                {
+                    "name": "currentTs",
+                    "type": "i64"
+                }
+            ]
+        },
+        {
+            "name": "pauseMerchant",
+            "accounts": [
+                {
+                    "name": "pool",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "merchant",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "owner",
+                    "isMut": false,
+                    "isSigner": true
+                },
+                {
+                    "name": "poolSigner",
+                    "isMut": false,
+                    "isSigner": false
+                },
+                {
+                    "name": "tokenProgram",
+                    "isMut": false,
+                    "isSigner": false
+                }
+            ],
+            "args": []
+        },
+        {
+            "name": "unpauseMerchant",
+            "accounts": [
+                {
+                    "name": "pool",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "merchant",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "owner",
+                    "isMut": false,
+                    "isSigner": true
+                },
+                {
+                    "name": "poolSigner",
+                    "isMut": false,
+                    "isSigner": false
+                },
+                {
+                    "name": "tokenProgram",
+                    "isMut": false,
+                    "isSigner": false
+                }
+            ],
+            "args": []
+        },
+        {
+            "name": "claimRewardForMerchant",
+            "accounts": [
+                {
+                    "name": "pool",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "merchant",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "stakingVault",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "rewardVault",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "owner",
+                    "isMut": false,
+                    "isSigner": true
+                },
+                {
+                    "name": "rewardAccount",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "poolSigner",
+                    "isMut": false,
+                    "isSigner": false
+                },
+                {
+                    "name": "tokenProgram",
+                    "isMut": false,
+                    "isSigner": false
+                }
+            ],
+            "args": [
+                {
+                    "name": "currentTs",
+                    "type": "i64"
+                }
+            ]
+        },
+        {
+            "name": "stakeOnBehalf",
+            "accounts": [
+                {
+                    "name": "pool",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "stakingVault",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "user",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "owner",
+                    "isMut": false,
+                    "isSigner": true
+                },
+                {
+                    "name": "stakeFromAccount",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "poolSigner",
+                    "isMut": false,
+                    "isSigner": false
+                },
+                {
+                    "name": "tokenProgram",
+                    "isMut": false,
+                    "isSigner": false
+                }
+            ],
+            "args": [
+                {
+                    "name": "amount",
+                    "type": "u64"
+                },
+                {
+                    "name": "currentTs",
+                    "type": "i64"
+                }
+            ]
+        },
+        {
+            "name": "withdraw",
+            "accounts": [
+                {
+                    "name": "pool",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "stakingVault",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "user",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "owner",
+                    "isMut": false,
+                    "isSigner": true
+                },
+                {
+                    "name": "stakeFromAccount",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "poolSigner",
+                    "isMut": false,
+                    "isSigner": false
+                },
+                {
+                    "name": "tokenProgram",
+                    "isMut": false,
+                    "isSigner": false
+                }
+            ],
+            "args": [
+                {
+                    "name": "listIndex",
+                    "type": "u32"
+                },
+                {
+                    "name": "currentTs",
+                    "type": "i64"
+                }
+            ]
+        }
+    ],
+    "accounts": [
+        {
+            "name": "Pool",
+            "type": {
+                "kind": "struct",
+                "fields": [
+                    {
+                        "name": "authority",
+                        "type": "publicKey"
+                    },
+                    {
+                        "name": "nonce",
+                        "type": "u8"
+                    },
+                    {
+                        "name": "paused",
+                        "type": "bool"
+                    },
+                    {
+                        "name": "stakingMint",
+                        "type": "publicKey"
+                    },
+                    {
+                        "name": "stakingVault",
+                        "type": "publicKey"
+                    },
+                    {
+                        "name": "rewardMint",
+                        "type": "publicKey"
+                    },
+                    {
+                        "name": "rewardVault",
+                        "type": "publicKey"
+                    },
+                    {
+                        "name": "rewardDuration",
+                        "type": "u64"
+                    },
+                    {
+                        "name": "rewardDurationEnd",
+                        "type": "u64"
+                    },
+                    {
+                        "name": "lastUpdateTime",
+                        "type": "u64"
+                    },
+                    {
+                        "name": "rewardRate",
+                        "type": "u64"
+                    },
+                    {
+                        "name": "rewardPerTokenStored",
+                        "type": "u128"
+                    },
+                    {
+                        "name": "userStakeCount",
+                        "type": "u32"
+                    },
+                    {
+                        "name": "merchantCount",
+                        "type": "u32"
+                    },
+                    {
+                        "name": "userStakeList",
+                        "type": {
+                            "vec": "publicKey"
+                        }
+                    },
+                    {
+                        "name": "merchantStakeList",
+                        "type": {
+                            "vec": "publicKey"
+                        }
+                    },
+                    {
+                        "name": "passiveStakersList",
+                        "type": {
+                            "vec": "publicKey"
+                        }
+                    },
+                    {
+                        "name": "funders",
+                        "type": {
+                            "array": [
+                                "publicKey",
+                                4
+                            ]
+                        }
+                    },
+                    {
+                        "name": "trailer",
+                        "type": {
+                            "array": [
+                                "u8",
+                                31
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "name": "User",
+            "type": {
+                "kind": "struct",
+                "fields": [
+                    {
+                        "name": "pool",
+                        "type": "publicKey"
+                    },
+                    {
+                        "name": "owner",
+                        "type": "publicKey"
+                    },
+                    {
+                        "name": "rewardPerTokenComplete",
+                        "type": "u128"
+                    },
+                    {
+                        "name": "rewardPerTokenPending",
+                        "type": "u64"
+                    },
+                    {
+                        "name": "balanceStaked",
+                        "type": "u64"
+                    },
+                    {
+                        "name": "balanceSelfStaked",
+                        "type": "u64"
+                    },
+                    {
+                        "name": "registerdAt",
+                        "type": "i64"
+                    },
+                    {
+                        "name": "firstStakedTs",
+                        "type": "i64"
+                    },
+                    {
+                        "name": "stakedTs",
+                        "type": "i64"
+                    },
+                    {
+                        "name": "stakedCount",
+                        "type": "u32"
+                    },
+                    {
+                        "name": "claimedTs",
+                        "type": "i64"
+                    },
+                    {
+                        "name": "claimedCount",
+                        "type": "u32"
+                    },
+                    {
+                        "name": "endTs",
+                        "type": "i64"
+                    },
+                    {
+                        "name": "nonce",
+                        "type": "u8"
+                    },
+                    {
+                        "name": "behalfStakedTs",
+                        "type": {
+                            "vec": "i64"
+                        }
+                    },
+                    {
+                        "name": "behalfStakedAmount",
+                        "type": {
+                            "vec": "u64"
+                        }
+                    },
+                    {
+                        "name": "behalfClaimedStatus",
+                        "type": {
+                            "vec": "bool"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "name": "Merchant",
+            "type": {
+                "kind": "struct",
+                "fields": [
+                    {
+                        "name": "pool",
+                        "type": "publicKey"
+                    },
+                    {
+                        "name": "owner",
+                        "type": "publicKey"
+                    },
+                    {
+                        "name": "rewardPerTokenComplete",
+                        "type": "u128"
+                    },
+                    {
+                        "name": "rewardPerTokenPending",
+                        "type": "u64"
+                    },
+                    {
+                        "name": "selfBalanceStaked",
+                        "type": "u64"
+                    },
+                    {
+                        "name": "balanceStaked",
+                        "type": "u64"
+                    },
+                    {
+                        "name": "merchantUserStakeCount",
+                        "type": "u32"
+                    },
+                    {
+                        "name": "merchantUserStakeList",
+                        "type": {
+                            "vec": "publicKey"
+                        }
+                    },
+                    {
+                        "name": "merchantName",
+                        "type": "string"
+                    },
+                    {
+                        "name": "createdAt",
+                        "type": "i64"
+                    },
+                    {
+                        "name": "lastUpdatedTs",
+                        "type": "i64"
+                    },
+                    {
+                        "name": "nonce",
+                        "type": "u8"
+                    },
+                    {
+                        "name": "paused",
+                        "type": "bool"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "MerchantUser",
+            "type": {
+                "kind": "struct",
+                "fields": [
+                    {
+                        "name": "pool",
+                        "type": "publicKey"
+                    },
+                    {
+                        "name": "merchant",
+                        "type": "publicKey"
+                    },
+                    {
+                        "name": "owner",
+                        "type": "publicKey"
+                    },
+                    {
+                        "name": "balanceStaked",
+                        "type": "u64"
+                    },
+                    {
+                        "name": "registerdAt",
+                        "type": "i64"
+                    },
+                    {
+                        "name": "firstStakedTs",
+                        "type": "i64"
+                    },
+                    {
+                        "name": "stakedTs",
+                        "type": "i64"
+                    },
+                    {
+                        "name": "stakedCount",
+                        "type": "u32"
+                    },
+                    {
+                        "name": "claimedTs",
+                        "type": "i64"
+                    },
+                    {
+                        "name": "claimedCount",
+                        "type": "u32"
+                    },
+                    {
+                        "name": "endTs",
+                        "type": "i64"
+                    },
+                    {
+                        "name": "nonce",
+                        "type": "u8"
+                    }
+                ]
+            }
+        }
+    ],
+    "errors": [
+        {
+            "code": 6000,
+            "name": "InsufficientFundUnstake",
+            "msg": "Insufficient funds to unstake."
+        },
+        {
+            "code": 6001,
+            "name": "AmountMustBeGreaterThanZero",
+            "msg": "Amount must be greater than zero."
+        },
+        {
+            "code": 6002,
+            "name": "SingleStakeTokenBCannotBeFunded",
+            "msg": "Reward B cannot be funded - pool is single stake."
+        },
+        {
+            "code": 6003,
+            "name": "PoolPaused",
+            "msg": "Pool is paused."
+        },
+        {
+            "code": 6004,
+            "name": "MerchantPaused",
+            "msg": "Merchant is paused."
+        },
+        {
+            "code": 6005,
+            "name": "DurationTooShort",
+            "msg": "Duration cannot be shorter than one day."
+        },
+        {
+            "code": 6006,
+            "name": "FunderAlreadyAuthorized",
+            "msg": "Provided funder is already authorized to fund."
+        },
+        {
+            "code": 6007,
+            "name": "MaxFunders",
+            "msg": "Maximum funders already authorized."
+        },
+        {
+            "code": 6008,
+            "name": "CannotDeauthorizePoolAuthority",
+            "msg": "Cannot deauthorize the primary pool authority."
+        },
+        {
+            "code": 6009,
+            "name": "CannotDeauthorizeMissingAuthority",
+            "msg": "Authority not found for deauthorization."
+        },
+        {
+            "code": 6010,
+            "name": "UnstakingNotOver",
+            "msg": "Unstaking not over."
+        },
+        {
+            "code": 6011,
+            "name": "AlreadyWithdrawn",
+            "msg": "Already withdrawn"
+        },
+        {
+            "code": 6012,
+            "name": "NoTokensToWithdraw",
+            "msg": "No tokens to withdraw"
+        },
+        {
+            "code": 6013,
+            "name": "NotTimeToWithdrawTokens",
+            "msg": "Not time to withdraw tokens"
+        }
+    ],
+    "metadata": {
+        "address": "7Yyb7na8CMtR9T6MULF5dSCDXZWbY9HVX1N5r6dcsN8n"
+    }
+}

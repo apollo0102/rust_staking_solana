@@ -1,0 +1,13 @@
+.merchant-staking-card {
+    border-top-width: 6px !important;
+    border-radius: 6px !important;
+    box-shadow: -2px -2px 6px rgb(21 34 71 / 70%), -2px -2px 4px rgb(191 198 212 / 40%), 2px 2px 2px rgb(168 168 211 / 13%), 2px 2px 4px rgb(0 0 0 / 10%);
+}
+
+.merchant-padding-div {
+    padding: 4px 12px;
+    border: 1px solid;
+    border-radius: 10px;
+    border-color: #CCC;
+    margin: 0 10px;
+}

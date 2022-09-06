@@ -1,0 +1,12 @@
+[programs.localnet]
+staking_contract = "6RwUKAHuSbadG6sQzcfEYKh6UGvPvCXB1nq7BPEyn5Jg"
+
+[registry]
+url = "https://anchor.projectserum.com"
+
+[provider]
+cluster = "localnet"
+wallet = "/home/peterchen/.config/solana/id.json"
+
+[scripts]
+test = "yarn run mocha -t 1000000 tests/"

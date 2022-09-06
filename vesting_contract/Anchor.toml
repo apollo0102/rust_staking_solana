@@ -1,0 +1,12 @@
+[programs.localnet]
+solana_vesting = "A61XuzXmCHwTcaHEiQ1wJgpp3crMMdoxRY3hXau7LnRP"
+
+[registry]
+url = "https://anchor.projectserum.com"
+
+[provider]
+cluster = "localnet"
+wallet = "/home/peterchen/.config/solana/id.json"
+
+[scripts]
+test = "yarn run mocha -t 1000000 tests/"
